@@ -53,6 +53,20 @@ public class Board {
 		piece.position = position;
 	}
 	
+	public Piece removePiece(Position position) {
+		if (!positionExists(position)) {
+			throw new BoardException(">>> POSIÇÃO NÃO EXISTE NO TABULEIRO <<<");
+		}
+		if (piece(position) == null) {
+			return null;
+		}
+		Piece aux = piece(position);//Caso não esteja nulo, criei uma variavel aux para indical que vai estar nulo.
+		aux.position = null;
+		pieces[position.getRow()][position.getColumn()] = null;//Aqui afirmo que não tem mais peça nessa posição
+		return aux;
+	}
+	
+	
 	/*PARA SABER SE JA EXISTE UMA PEÇA NO TABULEIRO.
 	 * FIZ UM METODO AUXILIAR PRIVATE  PARA FICAR MAIS FACIL DE TESTAR PELA LINHA E COLUNA
 	*/

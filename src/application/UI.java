@@ -1,6 +1,10 @@
 package application;
 
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
 import chess.ChessPiece;
+import chess.ChessPosition;
 import chess.Color;
 
 public class UI {
@@ -26,6 +30,20 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
+	
+	public static ChessPosition readChessPosition(Scanner sc) {
+		try {
+			String s = sc.nextLine();//Para ler a informação
+			char colum = s.charAt(0);//Para capturar o caracter - o primeiro.
+			int row = Integer.parseInt(s.substring(1));//para ler devo recortar o string da posição 1 - Aqui estou recortando o que será digitado apos a posicao 0 e converter para numero inteiro.
+			return new ChessPosition(colum, row);
+		}
+		catch(RuntimeException erro) {
+			throw new InputMismatchException("!!! ERROR LENDO A POSIÇÃO DO XADREZ !!! "
+					+ "-> VALORES VALIDOS SÃO DE A1 ATE H8");
+		}
+	}
+	
 	//Espaçamento + Letras do Tabuleiro.
 	public static void printBoard (ChessPiece[][] pieces){
 		for (int i=0; i < pieces.length;i++) {

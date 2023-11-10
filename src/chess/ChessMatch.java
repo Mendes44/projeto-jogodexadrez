@@ -1,6 +1,8 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Piece;
+import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -28,6 +30,30 @@ public class ChessMatch {
 			}
 		}
 		return mat;
+	}
+	
+	public ChessPiece perfomChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
+		//Primeiro vou converto soucerPosition e targetPosition para posições para matriz
+		Position source = sourcePosition.toPosition();
+		Position target = targetPosition.toPosition();
+		
+		//Agora antes de fazer a movimentação tenho que validar a posição
+		validateSourcePosition(source);
+		Piece capturePiece = makeMove(source, target);//Operação responsavel por realizar o movimento da peça.
+		return (ChessPiece)capturePiece;//downCasting
+	}
+	
+	private void validateSourcePosition(Position position) {
+		if (!board.thereIsAPiece(position)) {
+			throw new ChessException(">>> NÃO EXISTE PEÇA NA POSIÇÃO DE ORIGEM <<<");
+		}
+	}
+	
+	private Piece makeMove(Position source, Position target) {
+		Piece p = board.removePiece(source);
+		Piece capturePiece = board.removePiece(target);
+		board.placePiece(p, target);
+		return capturePiece;
 	}
 	
 	/*Criar um metodo para receber as coordenadas do xadrez
