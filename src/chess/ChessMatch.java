@@ -1,7 +1,6 @@
 package chess;
 
 import boardgame.Board;
-import boardgame.Position;
 import chess.pieces.King;
 import chess.pieces.Rook;
 
@@ -31,10 +30,18 @@ public class ChessMatch {
 		return mat;
 	}
 	
+	/*Criar um metodo para receber as coordenadas do xadrez
+	 * Onde uso o .toPosition para fazer a operação de colocar 
+	 * a peça passando a posição nas coodernadas do xadrez.
+	*/
+	private void placeNewPiece(char column, int row, ChessPiece piece) {
+		board.placePiece(piece, new ChessPosition(column, row).toPosition());
+	}
+	
 	//Aqui estou chamando o board para criar minhas peças na tela.
 	private void initialSetup() {
-		board.placePiece(new Rook(board, Color.WHITE), new Position(2, 1));
-		board.placePiece(new King (board, Color.BLACK), new Position(0, 4));
-		board.placePiece(new King (board, Color.WHITE), new Position(7, 4));
+		placeNewPiece('b',6, new Rook (board, Color.WHITE));//Estou falando para colocar na posição B6
+		placeNewPiece('e',8, new King (board, Color.BLACK));
+		placeNewPiece('e',1, new King (board, Color.WHITE));
 	}
 }
