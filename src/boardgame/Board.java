@@ -28,5 +28,16 @@ public class Board {
 		this.columns = columns;
 	}
 	
+	//Criar um metodo Board.Piece (row, column) e Board.Pieces(position) = sobrecarga
+	
+	public Piece piece(int row, int column) {
+		return pieces [row][column];
+	}
+	
+	//Sobrecarga - Retorna a peça pela posição
+	public Piece piece(Position position) {
+		return pieces[position.getRow()][position.getColumn()];
+	}
+	
 	
 }
