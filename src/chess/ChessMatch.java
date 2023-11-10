@@ -1,6 +1,9 @@
 package chess;
 
 import boardgame.Board;
+import boardgame.Position;
+import chess.pieces.King;
+import chess.pieces.Rook;
 
 public class ChessMatch {
 
@@ -9,11 +12,12 @@ public class ChessMatch {
 	
 	public ChessMatch() {
 		board = new Board(8, 8);
+		initialSetup();//Deve colocar o initial no construtor.
 	}
 	
 	/*
 	 - Estou na camada de Xadrez. Por isso que tem que liberar uma matriz de ChessPiece
-	 - Tabuleiro Board ele tem as peças so que as peças são do tipo Pieces e aqui estamos na camada de xadrez
+	 - Tabuleiro Board ele tem as peças so que as peças são do tipo Pieces 
 	 - O programa so pode ver somente a camada de xadrez e não a de tabuleiro.
 	*/
 	public ChessPiece[][] getPieces(){
@@ -25,5 +29,12 @@ public class ChessMatch {
 			}
 		}
 		return mat;
+	}
+	
+	//Aqui estou chamando o board para criar minhas peças na tela.
+	private void initialSetup() {
+		board.placePiece(new Rook(board, Color.WHITE), new Position(2, 1));
+		board.placePiece(new King (board, Color.BLACK), new Position(0, 4));
+		board.placePiece(new King (board, Color.WHITE), new Position(7, 4));
 	}
 }

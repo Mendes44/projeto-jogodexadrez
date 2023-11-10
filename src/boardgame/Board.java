@@ -34,10 +34,15 @@ public class Board {
 		return pieces [row][column];
 	}
 	
-	//Sobrecarga - Retorna a peça pela posição
+	//Sobrecarga - Retorna a peça pela posição - Para pegar as peças na posição na matriz.
 	public Piece piece(Position position) {
 		return pieces[position.getRow()][position.getColumn()];
 	}
 	
+	public void placePiece (Piece piece, Position position) {
+		pieces [position.getRow()][position.getColumn()] = piece;
+		piece.position = position;
+		
+	}
 	
 }
