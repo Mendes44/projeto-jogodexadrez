@@ -2,6 +2,7 @@ package chess;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import boardgame.Board;
 import boardgame.Piece;
@@ -15,6 +16,7 @@ public class ChessMatch {
 	private int turn;
 	private Color currentPlayer;
 	private Board board;
+	private boolean check;
 	
 	private List<Piece> piecesOnTheBoard = new ArrayList<>();
 	private List<Piece> capturedPieces = new ArrayList<>();
@@ -32,6 +34,10 @@ public class ChessMatch {
 	}
 	public Color getCurrentPlayer() {
 		return currentPlayer;
+	}
+	
+	public boolean getCheck() {
+		return check;
 	}
 	
 	
@@ -67,6 +73,14 @@ public class ChessMatch {
 		validateSourcePosition(source);
 		validateTargetPosition (source, target);
 		Piece capturePiece = makeMove(source, target);//Operação responsavel por realizar o movimento da peça.
+		
+		if (testCheck(currentPlayer)) {
+			undoMove(source, target, capturePiece);
+			throw new ChessException("VOCE NAO PODE SE COLOCAR EM CHECK!");
+		}
+		
+		check = (testCheck(opponent(currentPlayer))) ? true:false;
+		
 		nextTurn();
 		return (ChessPiece)capturePiece;//downCasting
 	}
@@ -102,11 +116,51 @@ public class ChessMatch {
 		return capturePiece;
 	}
 	
+	// Desfazendo o movimento
+	private void undoMove(Position source, Position target, Piece capturePiece) {
+		Piece p = board.removePiece(target);
+		board.placePiece(p, source);
+		
+		if (capturePiece != null) {
+			board.placePiece(capturePiece, target);
+			capturedPieces.remove(capturePiece);
+			piecesOnTheBoard.add(capturePiece);
+		}
+	}
+	
+	
 	// Incremento de Turno e Troca de Jogador.
 	private void nextTurn() {
 		turn++;
 		// Operação condicial ternaria (IF)    --- ?=então : caso contrario.
 		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK: Color.WHITE;
+	}
+	
+	public Color opponent(Color color) {
+		return (color == Color.WHITE) ? Color.BLACK : Color.WHITE;
+	}
+	
+	private ChessPiece king(Color color) {
+		List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
+		for (Piece p : list) {
+			if (p instanceof King) {
+				return (ChessPiece)p;
+			}
+		}
+		throw new IllegalStateException("NAO EXISTE O REI DA COR " + color + " NO TABULEIRO!!!");// NÃO PODE ACONTECER ESSE ERRO. NO CASO E PRA ESTOURAR.
+	}
+	
+	// Verificando se o rei esta em Check pela cor.
+	private boolean testCheck(Color color) {
+		Position kingPosition = king(color).getChessPosition().toPosition();//volta a posição em modo matriz
+		List<Piece> opponentPieces = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == opponent(color)).collect(Collectors.toList());
+		for (Piece p : opponentPieces) {
+			boolean[][] mat = p.possibleMoves();
+			if (mat[kingPosition.getRow()][kingPosition.getColumn()]) {
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/*Criar um metodo para receber as coordenadas do xadrez

@@ -62,6 +62,9 @@ public class UI {
 		System.out.println();
 		System.out.println("RODADA: " + chessMatch.getTurn());
 		System.out.println("Aguardando Jogador: " + chessMatch.getCurrentPlayer());
+		if (chessMatch.getCheck()) {
+			System.out.println("CHECK!");
+		}
 	}
 	
 	//Espaçamento + Letras do Tabuleiro.
