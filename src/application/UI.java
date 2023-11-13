@@ -3,6 +3,7 @@ package application;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import chess.ChessMatch;
 import chess.ChessPiece;
 import chess.ChessPosition;
 import chess.Color;
@@ -49,6 +50,13 @@ public class UI {
 			throw new InputMismatchException("!!! ERROR LENDO A POSICAOO DO XADREZ !!! "
 					+ "-> VALORES VALIDOS SAO DE A1 ATE H8");
 		}
+	}
+	
+	public static void printMatch(ChessMatch chessMatch) {
+		printBoard(chessMatch.getPieces());
+		System.out.println();
+		System.out.println("RODADA: " + chessMatch.getTurn());
+		System.out.println("Aguardando Jogador: " + chessMatch.getCurrentPlayer());
 	}
 	
 	//Espaçamento + Letras do Tabuleiro.

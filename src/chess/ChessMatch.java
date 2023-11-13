@@ -9,12 +9,24 @@ import chess.pieces.Rook;
 public class ChessMatch {
 
 	//Coração do Jogo de Xadrez
+	private int turn;
+	private Color currentPlayer;
 	private Board board;
 	
 	public ChessMatch() {
 		board = new Board(8, 8);
+		turn = 1;
+		currentPlayer = Color.WHITE;
 		initialSetup();//Deve colocar o initial no construtor.
 	}
+	
+	public int getTurn() {
+		return turn;
+	}
+	public Color getCurrentPlayer() {
+		return currentPlayer;
+	}
+	
 	
 	/*
 	 - Estou na camada de Xadrez. Por isso que tem que liberar uma matriz de ChessPiece
@@ -48,12 +60,16 @@ public class ChessMatch {
 		validateSourcePosition(source);
 		validateTargetPosition (source, target);
 		Piece capturePiece = makeMove(source, target);//Operação responsavel por realizar o movimento da peça.
+		nextTurn();
 		return (ChessPiece)capturePiece;//downCasting
 	}
 	
 	private void validateSourcePosition(Position position) {
 		if (!board.thereIsAPiece(position)) {
 			throw new ChessException(">>> NÃO EXISTE PEÇA NA POSIÇÃO DE ORIGEM <<<");
+		}
+		if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()) {
+			throw new ChessException("A PECA ESCOLHIDA NAO E SUA!!!");
 		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("NAO EXISTE MOVIMENTOS POSSIVEIS PARA PECA ESCOLHIDA!!!");
@@ -71,6 +87,13 @@ public class ChessMatch {
 		Piece capturePiece = board.removePiece(target);
 		board.placePiece(p, target);
 		return capturePiece;
+	}
+	
+	// Incremento de Turno e Troca de Jogador.
+	private void nextTurn() {
+		turn++;
+		// Operação condicial ternaria (IF)    --- ?=então : caso contrario.
+		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK: Color.WHITE;
 	}
 	
 	/*Criar um metodo para receber as coordenadas do xadrez
