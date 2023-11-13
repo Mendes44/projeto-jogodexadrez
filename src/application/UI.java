@@ -61,9 +61,17 @@ public class UI {
 		printCapturePieces(captured);
 		System.out.println();
 		System.out.println("RODADA: " + chessMatch.getTurn());
-		System.out.println("Aguardando Jogador: " + chessMatch.getCurrentPlayer());
-		if (chessMatch.getCheck()) {
-			System.out.println("CHECK!");
+		if (!chessMatch.getCheckMate()) {
+			System.out.println("Aguardando Jogador: " + chessMatch.getCurrentPlayer());
+			if (chessMatch.getCheck()) {
+				System.out.println("VOCE ESTA EM CHECK!");
+			}
+		}
+		else {
+			System.out.println(ANSI_GREEN_BACKGROUND);
+			System.out.println(">>> !!!CHECK-MATE!!! <<<");
+			System.out.println("VENCEDOR COR:  " + chessMatch.getCurrentPlayer() + " -- PARABENS!!!");
+			System.out.println(ANSI_RESET);
 		}
 	}
 	
