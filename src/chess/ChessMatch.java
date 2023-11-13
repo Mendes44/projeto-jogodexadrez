@@ -39,6 +39,7 @@ public class ChessMatch {
 		
 		//Agora antes de fazer a movimentação tenho que validar a posição
 		validateSourcePosition(source);
+		validateTargetPosition (source, target);
 		Piece capturePiece = makeMove(source, target);//Operação responsavel por realizar o movimento da peça.
 		return (ChessPiece)capturePiece;//downCasting
 	}
@@ -49,6 +50,12 @@ public class ChessMatch {
 		}
 		if (!board.piece(position).isThereAnyPossibleMove()) {
 			throw new ChessException("NAO EXISTE MOVIMENTOS POSSIVEIS PARA PECA ESCOLHIDA!!!");
+		}
+	}
+	
+	private void validateTargetPosition(Position source, Position target) {
+		if (!board.piece(source).possibleMove(target)) {
+			throw new ChessException("A PECA ESCOLHIDA NÃO PODE SE MOVER PARA A POSICAO DE DESTINO");
 		}
 	}
 	
