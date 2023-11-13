@@ -14,6 +14,12 @@ public class Rook extends ChessPiece{
 	public String toString() {
 		return "T";
 	}
+	
+	@Override
+	public boolean[][] possibleMoves() {
+		boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];//criei uma matriz com mesmo tamanho do tabuleiro com a matriz booleana
+		return mat;//todas as posições estarão valendo falso.
+	}
 }
 
 //Criação da Peça Rook (TORRE). 
