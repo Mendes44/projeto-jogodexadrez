@@ -27,6 +27,11 @@ public class Program {
 				System.out.print("Origem: ");
 				ChessPosition source = UI.readChessPosition(sc);
 				
+				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+				
+				UI.clearScreen();
+				// Sobrecarga - onde passo os movimentos possiveis - responsavel por imprimir o tabuleiro e pintar o tabuleiro
+				UI.printBoard(chessMatch.getPieces(), possibleMoves);
 				System.out.println();
 				System.out.print("Destino: ");
 				ChessPosition target = UI.readChessPosition(sc);
