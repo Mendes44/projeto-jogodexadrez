@@ -41,8 +41,5 @@ public abstract class ChessPiece extends Piece {
 	}
 
 	//Apaga o SET para não pode fazer alteração pois so pode ser acessado.
-	
-	
-	
-	
+
 }

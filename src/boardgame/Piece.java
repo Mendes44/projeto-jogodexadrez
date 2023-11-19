@@ -7,18 +7,17 @@ public abstract class Piece {
 	
 	public Piece(Board board) {
 		this.board = board;
-		position = null; //Não e necessario colocar pq o java ja joga, estou colocando para lembrar.
+		position = null;
 	}
 
-	//Não vou permitir que o tabuleiro seja alterado, ai tira o set.
 	//Protected = pois somente classes dentro do mesmo pacote e subclasses vão pode acessar.
 	protected Board getBoard() {
 		return board;
 	}
 
-	public abstract boolean [][] possibleMoves();//Classe abstrata
+	// # Classe abstrata
+	public abstract boolean [][] possibleMoves();
 	
-	//gancho do metodo contrato com a abstrata
 	public boolean possibleMove(Position position) {
 		return possibleMoves()[position.getRow()][position.getColumn()];
 	}
@@ -34,6 +33,4 @@ public abstract class Piece {
 		}
 		return false;
 	}
-	
-	
 }
