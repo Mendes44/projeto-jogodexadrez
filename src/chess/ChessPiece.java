@@ -29,7 +29,7 @@ public abstract class ChessPiece extends Piece {
 		moveCount--;
 	}
 	
-	// Metodo para retornar a posição no formato do xadrez
+	// Metodo para retornar a posição no formato do xadrez.
 	public ChessPosition getChessPosition() {
 		return ChessPosition.fromPosition(position);
 	}
@@ -39,7 +39,5 @@ public abstract class ChessPiece extends Piece {
 		ChessPiece p = (ChessPiece)getBoard().piece(position);
 		return p != null && p.getColor() != color;
 	}
-
-	//Apaga o SET para não pode fazer alteração pois so pode ser acessado.
 
 }

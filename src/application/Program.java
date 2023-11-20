@@ -31,7 +31,6 @@ public class Program {
 				boolean[][] possibleMoves = chessMatch.possibleMoves(source);
 				
 				UI.clearScreen();
-				// Sobrecarga - onde passo os movimentos possiveis - responsavel por imprimir o tabuleiro e pintar o tabuleiro
 				UI.printBoard(chessMatch.getPieces(), possibleMoves);
 				System.out.println();
 				System.out.print("Destino: ");
@@ -39,14 +38,13 @@ public class Program {
 				
 				ChessPiece capturePiece = chessMatch.perfomChessMove(source, target);
 				
-				// Sempre que resultar em uma peça capturada add na lista de peças capturadas.
 				if (capturePiece != null) {
 					captured.add(capturePiece);
 				}
 				
 				if (chessMatch.getPromoted() != null) {
 					System.out.print("Entre com peca para PROMOCAO (B/C/T/Q): ");
-					String type = sc.nextLine().toUpperCase();//Coloca todas para maiusculas
+					String type = sc.nextLine().toUpperCase();//Coloca todas para maiusculas.
 					while (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("Q")) {
 						System.out.print("VALOR INVALIDO!!! >>> Entre com peca para PROMOCAO (B/C/T/Q): ");
 					}
@@ -55,7 +53,7 @@ public class Program {
 			}
 			catch(ChessException e) {
 				System.out.println(e.getMessage());
-				sc.nextLine();//Para aguardar apertar enter.
+				sc.nextLine();
 			}
 			catch (InputMismatchException e) {
 				System.out.println(e.getMessage());

@@ -8,8 +8,7 @@ public class Board {
 	
 	public Board(int rows, int columns) {
 		if (rows < 1 || columns < 1 ) {
-			throw new BoardException("ERRO CRIANDO TABULEIRO! -> E NECESSARIO "
-					+ "QUE HAJA PELO MENOS 1 LINHA E 1 COLUNA. ");
+			throw new BoardException("!!! ERRO CRIANDO TABULEIRO!!! -> E NECESSARIO QUE HAJA PELO MENOS 1 LINHA E 1 COLUNA. ");
 		}
 		
 		this.rows = rows;
@@ -24,14 +23,12 @@ public class Board {
 	public int getColumns() {
 		return columns;
 	}
-
-	
 	
 	//Criar um metodo Board.Piece (row, column) e Board.Pieces(position)
 	//PROGRAMAÇÃO DEFENSIVA - TESTAR PARA VER SE NÃO EXISTE PEÇA NA MESMA POSIÇÃO.
 	public Piece piece(int row, int column) {
 		if (!positionExists(row,column)) {
-			throw new BoardException(">>> POSIÇÃO NÃO EXISTE NO TABULEIRO <<<");
+			throw new BoardException(">>> POSIÇAO NAO EXISTE NO TABULEIRO <<<");
 		}
 		return pieces [row][column];
 	}
@@ -60,16 +57,13 @@ public class Board {
 		if (piece(position) == null) {
 			return null;
 		}
-		Piece aux = piece(position);//Caso não esteja nulo, criei uma variavel aux para indical que vai estar nulo.
+		Piece aux = piece(position);//Caso não esteja nulo, criei uma variavel aux para indicar que vai estar nulo.
 		aux.position = null;
-		pieces[position.getRow()][position.getColumn()] = null;//Aqui afirmo que não tem mais peça nessa posição
+		pieces[position.getRow()][position.getColumn()] = null;//Aqui afirmo que não tem mais peça nessa posição.
 		return aux;
 	}
 	
-	
-	/*PARA SABER SE JA EXISTE UMA PEÇA NO TABULEIRO.
-	 * FIZ UM METODO AUXILIAR PRIVATE  PARA FICAR MAIS FACIL DE TESTAR PELA LINHA E COLUNA
-	*/
+	//PARA SABER SE JA EXISTE UMA PEÇA NO TABULEIRO.
 	private boolean positionExists(int row, int column) {
 		return row >= 0 && row < rows && column >= 0 && column < columns;
 	}
@@ -82,6 +76,6 @@ public class Board {
 		if (!positionExists(position)) {
 			throw new BoardException(">>> POSIÇÃO NÃO EXISTE NO TABULEIRO <<<");
 		}
-		return piece(position) != null; //Se a peça for diferente de nulo e pq tem uma peça.
+		return piece(position) != null;
 	}
 }

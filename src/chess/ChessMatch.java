@@ -17,7 +17,7 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
 
-	// # Coração do Jogo de Xadrez
+	// #Coração do Jogo de Xadrez.
 	
 	private int turn;
 	private Color currentPlayer;
@@ -35,7 +35,7 @@ public class ChessMatch {
 		board = new Board(8, 8);
 		turn = 1;
 		currentPlayer = Color.WHITE;
-		initialSetup();//Deve colocar o initial no construtor.
+		initialSetup();
 	}
 	
 	public int getTurn() {
@@ -61,38 +61,32 @@ public class ChessMatch {
 		return promoted;
 	}
 	
-	/*
-	 - Estou na camada de Xadrez. Por isso que tem que liberar uma matriz de ChessPiece
-	 - Tabuleiro Board ele tem as peças so que as peças são do tipo Pieces 
-	 - O programa so pode ver somente a camada de xadrez e não a de tabuleiro.
-	*/
 	public ChessPiece[][] getPieces(){
 		ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()];
 		
 		for (int i=0; i < board.getRows();i++) {
 			for(int j=0; j < board.getColumns();j++) {
-				mat[i][j] = (ChessPiece) board.piece(i,j); //Fazendo um downCasting
+				mat[i][j] = (ChessPiece) board.piece(i,j); //DownCasting.
 			}
 		}
 		return mat;
 	}
 	
-	// Movimentos Possiveis que vai ser validado 
+	// #Movimentos Possiveis que vai ser validado.
 	public boolean[][] possibleMoves(ChessPosition sourcePostion){
-		Position position = sourcePostion.toPosition();// converter posição de xadrez para posição de matriz normal
-		validateSourcePosition(position);// validação da posição
+		Position position = sourcePostion.toPosition(); //Converter posição de xadrez para posição de matriz normal.
+		validateSourcePosition(position); //Validação da posição.
 		return board.piece(position).possibleMoves();
 	}
 	
 	public ChessPiece perfomChessMove(ChessPosition sourcePosition, ChessPosition targetPosition) {
-		//Primeiro vou converto soucerPosition e targetPosition para posições para matriz
+
 		Position source = sourcePosition.toPosition();
 		Position target = targetPosition.toPosition();
-		
-		//Agora antes de fazer a movimentação tenho que validar a posição
 		validateSourcePosition(source);
 		validateTargetPosition (source, target);
-		Piece capturePiece = makeMove(source, target);//Operação responsavel por realizar o movimento da peça.
+		//Operação responsavel por realizar o movimento da peça.
+		Piece capturePiece = makeMove(source, target);
 		
 		if (testCheck(currentPlayer)) {
 			undoMove(source, target, capturePiece);
@@ -101,7 +95,7 @@ public class ChessMatch {
 		
 		ChessPiece movePiece = (ChessPiece)board.piece(target);
 		
-		// # Movimento Especial - PROMOÇÃO
+		// #Movimento Especial - PROMOÇÃO.
 		promoted = null;
 		if(movePiece instanceof Pawn) {
 			if((movePiece.getColor() == Color.WHITE && target.getRow() == 0) || (movePiece.getColor() == Color.BLACK && target.getRow() == 7)) {
@@ -119,7 +113,7 @@ public class ChessMatch {
 			nextTurn();
 		}
 		
-		// #Movimento Especial - En Passant
+		// #Movimento Especial - En Passant.
 		if (movePiece instanceof Pawn && (target.getRow() == source.getRow() - 2) || (target.getRow() == source.getRow() + 2)) {
 			enPassantVulnerable = movePiece;
 		}
@@ -127,7 +121,7 @@ public class ChessMatch {
 			enPassantVulnerable = null;
 		}
 		
-		return (ChessPiece)capturePiece;//downCasting
+		return (ChessPiece)capturePiece;//downCasting.
 	}
 	
 	public ChessPiece replacePromotedPiece(String type) {
@@ -185,25 +179,25 @@ public class ChessMatch {
 			capturedPieces.add(capturePiece);
 		}
 		
-		// # Movimento Especial Roque Pequeno - Lado do Rei
+		// #Movimento Especial Roque Pequeno - Lado do Rei.
 		if (p instanceof King && target.getColumn() == source.getColumn() + 2) {
 			Position sourceT = new Position(source.getRow(), source.getColumn() + 3);
 			Position targetT = new Position(source.getRow(), source.getColumn() + 1);
-			ChessPiece rook = (ChessPiece)board.removePiece(sourceT); //Operação para remover a peça
+			ChessPiece rook = (ChessPiece)board.removePiece(sourceT); //Operação para remover a peça.
 			board.placePiece(rook, targetT); // Colocando a pela na posição.
 			rook.increaseMoveCount();
 		}
 		
-		// # Movimento Especial Roque Grande - Lado da rainha.
+		// #Movimento Especial Roque Grande - Lado da rainha.
 		if (p instanceof King && target.getColumn() == source.getColumn() - 2) {
 			Position sourceT = new Position(source.getRow(), source.getColumn() - 4);
 			Position targetT = new Position(source.getRow(), source.getColumn() - 1);
-			ChessPiece rook = (ChessPiece)board.removePiece(sourceT); //Operação para remover a peça
-			board.placePiece(rook, targetT); // Colocando a pela na posição.
+			ChessPiece rook = (ChessPiece)board.removePiece(sourceT); //Operação para remover a peça.
+			board.placePiece(rook, targetT); //Colocando a pedra na posição.
 			rook.increaseMoveCount();
 		}
 		
-		// # Movimento Especial EN PASSANT
+		// #Movimento Especial EN PASSANT.
 		if (p instanceof Pawn) {
 			if (source.getColumn() != target.getColumn() && capturePiece == null) {
 				Position pawnPosition;
@@ -222,7 +216,7 @@ public class ChessMatch {
 		return capturePiece;
 	}
 	
-	// Desfazendo o movimento
+	// #Desfazendo o movimento.
 	private void undoMove(Position source, Position target, Piece capturePiece) {
 		ChessPiece p = (ChessPiece)board.removePiece(target);
 		p.decreaseMoveCount();
@@ -234,16 +228,16 @@ public class ChessMatch {
 			piecesOnTheBoard.add(capturePiece);
 		}
 		
-		// # Movimento Especial Roque Pequeno - Lado do Rei
+		// #Movimento Especial Roque Pequeno - Lado do Rei.
 		if (p instanceof King && target.getColumn() == source.getColumn() + 2) {
 			Position sourceT = new Position(source.getRow(), source.getColumn() + 3);
 			Position targetT = new Position(source.getRow(), source.getColumn() + 1);
-			ChessPiece rook = (ChessPiece) board.removePiece(targetT); // Operação para remover a peça
-			board.placePiece(rook, sourceT); // Colocando a pela na posição.
+			ChessPiece rook = (ChessPiece) board.removePiece(targetT); //Operação para remover a peça.
+			board.placePiece(rook, sourceT); //Colocando a pela na posição.
 			rook.increaseMoveCount();
 		}
 
-		// # Movimento Especial Roque Grande - Lado da rainha.
+		// #Movimento Especial Roque Grande - Lado da rainha.
 		if (p instanceof King && target.getColumn() == source.getColumn() - 2) {
 			Position sourceT = new Position(source.getRow(), source.getColumn() - 4);
 			Position targetT = new Position(source.getRow(), source.getColumn() - 1);
@@ -252,7 +246,7 @@ public class ChessMatch {
 			rook.decreaseMoveCount();
 		}
 		
-		// # Movimento Especial EN PASSANT - DESFAZER
+		// #Movimento Especial EN PASSANT - DESFAZER.
 		if (p instanceof Pawn) {
 			if (source.getColumn() != target.getColumn() && capturePiece == enPassantVulnerable) {
 				ChessPiece pawn = (ChessPiece)board.removePiece(target);
@@ -269,10 +263,9 @@ public class ChessMatch {
 	}
 	
 	
-	// Incremento de Turno e Troca de Jogador.
+	// #Incremento de Turno e Troca de Jogador.
 	private void nextTurn() {
 		turn++;
-		// Operação condicial ternaria (IF)    --- ?=então : caso contrario.
 		currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK: Color.WHITE;
 	}
 	
@@ -290,7 +283,7 @@ public class ChessMatch {
 		throw new IllegalStateException("NAO EXISTE O REI DA COR " + color + " NO TABULEIRO!!!");// NÃO PODE ACONTECER ESSE ERRO. NO CASO E PRA ESTOURAR.
 	}
 	
-	// Verificando se o rei esta em Check pela cor.
+	// #Verificando se o rei esta em Check pela cor.
 	private boolean testCheck(Color color) {
 		Position kingPosition = king(color).getChessPosition().toPosition();
 		List<Piece> opponentPieces = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == opponent(color)).collect(Collectors.toList());
@@ -338,7 +331,7 @@ public class ChessMatch {
 		piecesOnTheBoard.add(piece);
 	}
 	
-	//Aqui estou chamando o board para criar minhas peças na tela.
+	// #Peças na tela.
 	private void initialSetup() {
 		placeNewPiece('a', 1, new Rook(board, Color.WHITE));
 		placeNewPiece('b', 1, new Knigth(board, Color.WHITE));

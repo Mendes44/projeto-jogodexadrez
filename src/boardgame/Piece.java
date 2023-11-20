@@ -15,7 +15,7 @@ public abstract class Piece {
 		return board;
 	}
 
-	// # Classe abstrata
+	// #Classe abstrata.
 	public abstract boolean [][] possibleMoves();
 	
 	public boolean possibleMove(Position position) {

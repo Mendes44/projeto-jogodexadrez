@@ -34,24 +34,21 @@ public class UI {
 	public static final String ANSI_CYAN_BACKGROUND = "\u001B[46m";
 	public static final String ANSI_WHITE_BACKGROUND = "\u001B[47m";
 
-	
 	// https://stackoverflow.com/questions/2979383/java-clear-the-console
 	public static void clearScreen() {
 	System.out.print("\033[H\033[2J");
 	System.out.flush();
 	}
 	
-	
 	public static ChessPosition readChessPosition(Scanner sc) {
 		try {
-			String s = sc.nextLine();//Para ler a informação
+			String s = sc.nextLine();//Para ler a informação.
 			char colum = s.charAt(0);//Para capturar o caracter - o primeiro.
-			int row = Integer.parseInt(s.substring(1));//para ler devo recortar o string da posição 1 - Aqui estou recortando o que será digitado apos a posicao 0 e converter para numero inteiro.
+			int row = Integer.parseInt(s.substring(1));//Aqui estou recortando o que será digitado apos a posicao 0 e converter para numero inteiro.
 			return new ChessPosition(colum, row);
 			}
 		catch(RuntimeException erro) {
-			throw new InputMismatchException("!!! ERROR LENDO A POSICAOO DO XADREZ !!! "
-					+ "-> VALORES VALIDOS SAO DE A1 ATE H8");
+			throw new InputMismatchException("!!! ERROR NA LEITURA DA POSICAOO DO XADREZ !!! -> VALORES VALIDOS SAO DE A1 ATE H8");
 		}
 	}
 	

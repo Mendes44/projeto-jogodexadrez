@@ -20,13 +20,13 @@ public class King extends ChessPiece {
 		return "K";
 	}
 	
-	// Compara se e o objeto p volta diferente de nulo e nao e da mesma cor
+	//Compara se e o objeto p volta diferente de nulo e nao e da mesma cor.
 	private boolean canMove (Position position) {
 		ChessPiece p = (ChessPiece)getBoard().piece(position);
 		return p == null || p.getColor() != getColor();
 	}
 	
-	// #VERIFICAÇÃO SE A TORRE ESTA APTA PARA O MOVIMENTO ESPECIAL ROQUE
+	// #VERIFICAÇÃO SE A TORRE ESTA APTA PARA O MOVIMENTO ESPECIAL ROQUE.
 	private boolean testRookCastling(Position position) {
 		ChessPiece p = (ChessPiece)getBoard().piece(position);
 		return p != null && p instanceof Rook && p.getColor() == getColor() && p.getMoveCount() == 0;
@@ -34,7 +34,7 @@ public class King extends ChessPiece {
 
 	@Override
 	public boolean[][] possibleMoves() {
-		boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];//criei uma matriz com mesmo tamanho do tabuleiro com a matriz booleana
+		boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];//Criei uma matriz com mesmo tamanho do tabuleiro com a matriz booleana
 		
 		Position p = new Position(0, 0);
 		
@@ -83,7 +83,7 @@ public class King extends ChessPiece {
 			mat[p.getRow()][p.getColumn()] = true;
 		}
 		
-		// # Movimento Especial - Roque LADOMENOR (LADO DO REI)
+		// #Movimento Especial - Roque LADOMENOR (LADO DO REI).
 		if (getMoveCount() == 0 && !chessMatch.getCheck()){
 			//LADO DO REI - ROQUE PEQUENO
 			Position posT1 = new Position(position.getRow(),position.getColumn() + 3);
@@ -94,7 +94,7 @@ public class King extends ChessPiece {
 					mat [position.getRow()][position.getColumn() + 2] = true;
 				}
 			}
-			//LADO DA RAINHA - ROQUE GRANDE
+			//LADO DA RAINHA - ROQUE GRANDE.
 			Position posT2 = new Position(position.getRow(),position.getColumn() - 4);
 			if (testRookCastling(posT2)) {
 				Position p1 = new Position(position.getRow(), position.getColumn() - 1);
